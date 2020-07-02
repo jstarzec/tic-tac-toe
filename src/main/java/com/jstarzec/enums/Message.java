@@ -10,7 +10,7 @@ public enum Message {
             "The field of your choice must be empty - marked as . \n" +
             "Provide correct position\n");
 
-    private String message;
+    private final String message;
 
     Message(String message) {
         this.message = message;

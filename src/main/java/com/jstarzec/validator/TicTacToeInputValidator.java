@@ -1,6 +1,7 @@
 package com.jstarzec.validator;
 
 import com.jstarzec.enums.BoardCoordinate;
+import com.jstarzec.enums.Mark;
 
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -19,7 +20,7 @@ public class TicTacToeInputValidator implements GameInputValidator {
         int row = positions.get(BoardCoordinate.ROW.getValue());
         int column = positions.get(BoardCoordinate.COLUMN.getValue());
 
-        return board[row][column] == '.';
+        return board[row][column] == Mark.EMPTY_FIELD.getMark();
     }
 
     @Override

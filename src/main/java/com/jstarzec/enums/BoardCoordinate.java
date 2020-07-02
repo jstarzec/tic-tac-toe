@@ -4,7 +4,7 @@ public enum BoardCoordinate {
     ROW("row"),
     COLUMN("column");
 
-    private String value;
+    private final String value;
 
     BoardCoordinate(String value) {
         this.value = value;

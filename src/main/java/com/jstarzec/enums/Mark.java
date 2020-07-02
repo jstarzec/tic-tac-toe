@@ -2,9 +2,10 @@ package com.jstarzec.enums;
 
 public enum Mark {
     X('X'),
-    O('O');
+    O('O'),
+    EMPTY_FIELD('.');
 
-    private char mark;
+    private final char mark;
 
     Mark(char mark) {
         this.mark = mark;
