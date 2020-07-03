@@ -16,18 +16,6 @@ public class TicTacToeTest {
     }
 
     @Test
-    public void testVariables() {
-        assertAll("This is a group of assertion of a main game class",
-                () -> assertThat(game.getBoard(), nullValue()),
-                () -> assertThat(game.getHasWinner(), is(false)),
-                () -> assertThat(game.getRound(), equalTo(0)),
-                () -> assertThat(game.getMark(), equalTo('\0')),
-                () -> assertThat(game.getGameBoardManager(), is(not(nullValue()))),
-                () -> assertThat(game.getInputProvider(), is(not(nullValue())))
-        );
-    }
-
-    @Test
     public void shouldBoardBeNull() {
         assertThat(game.getBoard(), nullValue());
     }

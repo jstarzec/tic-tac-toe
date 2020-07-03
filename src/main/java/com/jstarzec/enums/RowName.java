@@ -1,14 +1,13 @@
 package com.jstarzec.enums;
 
-public enum ColumnName {
-    NAME_1('1'),
-    NAME_2('2'),
-    NAME_3('3');
-
+public enum RowName {
+    A('A'),
+    B('B'),
+    C('C');
 
     private final Character name;
 
-    ColumnName(Character name) {
+    RowName(Character name) {
         this.name = name;
     }
 

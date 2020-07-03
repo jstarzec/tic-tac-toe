@@ -2,6 +2,7 @@ package com.jstarzec.manager;
 
 import com.jstarzec.enums.BoardCoordinate;
 import com.jstarzec.enums.ColumnName;
+import com.jstarzec.enums.RowName;
 import com.jstarzec.enums.Mark;
 
 import java.util.Map;
@@ -12,10 +13,10 @@ public class TicTacToeBoardManager implements GameBoardManager {
 
     public TicTacToeBoardManager() {
         board = new char[][]{
-                {' ', '1', '2', '3'},
-                {ColumnName.A.getName(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark()},
-                {ColumnName.B.getName(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark()},
-                {ColumnName.C.getName(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark()},
+                {' ', ColumnName.NAME_1.getName(), ColumnName.NAME_2.getName(), ColumnName.NAME_3.getName()},
+                {RowName.A.getName(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark()},
+                {RowName.B.getName(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark()},
+                {RowName.C.getName(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark()},
         };
     }
 

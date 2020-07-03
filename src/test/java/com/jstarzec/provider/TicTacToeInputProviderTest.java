@@ -110,12 +110,10 @@ class TicTacToeInputProviderTest {
         assertAll("This is a group of assertions for coordinates",
                 () -> assertThat(coordinates.get(BoardCoordinate.COLUMN.getValue()), is(nullValue())),
                 () -> assertThat(coordinates.get(BoardCoordinate.ROW.getValue()), is(nullValue())));
-
     }
 
     @Test
     void shouldNotSetProperCoordinatesWhenRowDoesNotExist() {
-
         //Given
         input = "D1";
 

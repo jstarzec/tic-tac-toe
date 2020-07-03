@@ -37,7 +37,7 @@ public class TicTacToe {
         board = getGameBoardManager().getBoard();
         hasWinner = false;
         round = 0;
-        mark = 'X';
+        mark = Mark.X.getMark();
 
         System.out.print(Message.WELCOME.getMessage());
         getGameBoardManager().printGameBoard();

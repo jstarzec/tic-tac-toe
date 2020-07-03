@@ -1,9 +1,6 @@
 package com.jstarzec.validator;
 
-import com.jstarzec.enums.BoardCoordinate;
-import com.jstarzec.enums.ColumnName;
-import com.jstarzec.enums.Mark;
-import com.jstarzec.enums.Pattern;
+import com.jstarzec.enums.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,11 +20,10 @@ class TicTacToeInputValidatorTest {
     public void before() {
         coordinates = new HashMap<>();
         board = new char[][]{
-                {' ', '1', '2', '3'},
-                {
-                        ColumnName.A.getName(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark()},
-                {ColumnName.B.getName(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark()},
-                {ColumnName.C.getName(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark()},
+                {' ', ColumnName.NAME_1.getName(), ColumnName.NAME_2.getName(), ColumnName.NAME_3.getName()},
+                {RowName.A.getName(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark()},
+                {RowName.B.getName(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark()},
+                {RowName.C.getName(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark()},
         };
     }
 

@@ -1,7 +1,9 @@
 package com.jstarzec.manager;
 
 import com.jstarzec.enums.BoardCoordinate;
+import com.jstarzec.enums.ColumnName;
 import com.jstarzec.enums.Mark;
+import com.jstarzec.enums.RowName;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -44,7 +46,6 @@ class TicTacToeBoardManagerTest {
         //When
         boardManager.printGameBoard();
 
-
         //Then
         assertThat(expectedOutput, equalTo(outContent.toString()));
     }
@@ -52,7 +53,7 @@ class TicTacToeBoardManagerTest {
     @Test
     void shouldBeEqualToExpectedOutputWhenPrintModifiedGameBoard() {
         //Given
-        mark = 'X';
+        mark = Mark.X.getMark();
         coordinates.put(BoardCoordinate.ROW.getValue(), 1);
         coordinates.put(BoardCoordinate.COLUMN.getValue(), 1);
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -74,12 +75,12 @@ class TicTacToeBoardManagerTest {
     @Test
     void shouldBeEqualToMarkXWhenMarkedGameBoard() {
         //Given
-        mark = 'X';
+        mark = Mark.X.getMark();
         coordinates.put(BoardCoordinate.ROW.getValue(), 1);
         coordinates.put(BoardCoordinate.COLUMN.getValue(), 1);
 
         //When
-        boardManager.markGameBoard(coordinates, 'X');
+        boardManager.markGameBoard(coordinates, mark);
 
         //Then
         assertThat(boardManager.getBoard()[1][1], equalTo(mark));
@@ -89,7 +90,7 @@ class TicTacToeBoardManagerTest {
     @Test
     void shouldBeEqualToMarkOWhenMarkedGameBoard() {
         //Given
-        mark = 'O';
+        mark = Mark.O.getMark();
         coordinates.put(BoardCoordinate.ROW.getValue(), 1);
         coordinates.put(BoardCoordinate.COLUMN.getValue(), 3);
 
@@ -103,7 +104,7 @@ class TicTacToeBoardManagerTest {
     @Test
     void shouldOverwriteGameBoardPosition() {
         //Given
-        mark = 'O';
+        mark = Mark.O.getMark();
         coordinates.put(BoardCoordinate.ROW.getValue(), 1);
         coordinates.put(BoardCoordinate.COLUMN.getValue(), 3);
 
@@ -114,7 +115,7 @@ class TicTacToeBoardManagerTest {
         assertThat(boardManager.getBoard()[1][3], equalTo(mark));
 
         //When
-        mark = 'X';
+        mark = Mark.X.getMark();
         boardManager.markGameBoard(coordinates, mark);
 
         //Then
@@ -124,7 +125,7 @@ class TicTacToeBoardManagerTest {
     @Test
     void shouldThrowArrayIndexOutOfBoundsExceptionWhenIndexIncorrect() {
         //Given
-        mark = 'O';
+        mark = Mark.O.getMark();
         coordinates.put(BoardCoordinate.ROW.getValue(), 10);
         coordinates.put(BoardCoordinate.COLUMN.getValue(), 10);
 
@@ -138,7 +139,7 @@ class TicTacToeBoardManagerTest {
     @Test
     void shouldThrowArrayIndexOutOfBoundsExceptionWhenIndexIsNegative() {
         //Given
-        mark = 'O';
+        mark = Mark.O.getMark();
         coordinates.put(BoardCoordinate.ROW.getValue(), -1);
         coordinates.put(BoardCoordinate.COLUMN.getValue(), -1);
 
@@ -152,7 +153,7 @@ class TicTacToeBoardManagerTest {
     @Test
     void shouldHaveWinnerWithGivenInput() {
         //Given
-        mark = 'X';
+        mark = Mark.X.getMark();
         boardManager.getBoard()[1][1] = Mark.X.getMark();
         boardManager.getBoard()[1][2] = Mark.X.getMark();
         boardManager.getBoard()[1][3] = Mark.X.getMark();
@@ -167,7 +168,7 @@ class TicTacToeBoardManagerTest {
     @Test
     void shouldNotHaveWinnerWithGivenInput() {
         //Given
-        mark = 'X';
+        mark = Mark.X.getMark();
         boardManager.getBoard()[1][1] = Mark.X.getMark();
         boardManager.getBoard()[1][2] = Mark.O.getMark();
         boardManager.getBoard()[1][3] = Mark.X.getMark();
@@ -182,7 +183,7 @@ class TicTacToeBoardManagerTest {
     @Test
     void shouldNotHaveWinnerWhenMarkXAndBoardUnmodified() {
         //Given
-        mark = 'X';
+        mark = Mark.X.getMark();
 
         //When
         boolean hasWinner = boardManager.checkForWinner(mark);
@@ -194,7 +195,7 @@ class TicTacToeBoardManagerTest {
     @Test
     void shouldNotHaveWinnerWhenMarkOAndBoardUnmodified() {
         //Given
-        mark = 'O';
+        mark = Mark.O.getMark();
 
         //When
         boolean hasWinner = boardManager.checkForWinner(mark);
@@ -206,7 +207,7 @@ class TicTacToeBoardManagerTest {
     @Test
     void shouldHaveWinnerWithDotMarkWhenBoardNotModified() {
         //Given
-        mark = '.';
+        mark = Mark.EMPTY_FIELD.getMark();
 
         //When
         boolean hasWinner = boardManager.checkForWinner(mark);
@@ -229,21 +230,21 @@ class TicTacToeBoardManagerTest {
     void shouldContainGivenValues() {
         assertAll("This is a group of assertion of each position of a board",
                 () -> assertThat(boardManager.getBoard()[0][0], equalTo(' ')),
-                () -> assertThat(boardManager.getBoard()[0][1], equalTo('1')),
-                () -> assertThat(boardManager.getBoard()[0][2], equalTo('2')),
-                () -> assertThat(boardManager.getBoard()[0][3], equalTo('3')),
-                () -> assertThat(boardManager.getBoard()[1][0], equalTo('A')),
-                () -> assertThat(boardManager.getBoard()[1][1], equalTo('.')),
-                () -> assertThat(boardManager.getBoard()[1][2], equalTo('.')),
-                () -> assertThat(boardManager.getBoard()[1][3], equalTo('.')),
-                () -> assertThat(boardManager.getBoard()[2][0], equalTo('B')),
-                () -> assertThat(boardManager.getBoard()[2][1], equalTo('.')),
-                () -> assertThat(boardManager.getBoard()[2][2], equalTo('.')),
-                () -> assertThat(boardManager.getBoard()[2][3], equalTo('.')),
-                () -> assertThat(boardManager.getBoard()[3][0], equalTo('C')),
-                () -> assertThat(boardManager.getBoard()[3][1], equalTo('.')),
-                () -> assertThat(boardManager.getBoard()[3][2], equalTo('.')),
-                () -> assertThat(boardManager.getBoard()[3][3], equalTo('.'))
+                () -> assertThat(boardManager.getBoard()[0][1], equalTo(ColumnName.NAME_1.getName())),
+                () -> assertThat(boardManager.getBoard()[0][2], equalTo(ColumnName.NAME_2.getName())),
+                () -> assertThat(boardManager.getBoard()[0][3], equalTo(ColumnName.NAME_3.getName())),
+                () -> assertThat(boardManager.getBoard()[1][0], equalTo(RowName.A.getName())),
+                () -> assertThat(boardManager.getBoard()[1][1], equalTo(Mark.EMPTY_FIELD.getMark())),
+                () -> assertThat(boardManager.getBoard()[1][2], equalTo(Mark.EMPTY_FIELD.getMark())),
+                () -> assertThat(boardManager.getBoard()[1][3], equalTo(Mark.EMPTY_FIELD.getMark())),
+                () -> assertThat(boardManager.getBoard()[2][0], equalTo(RowName.B.getName())),
+                () -> assertThat(boardManager.getBoard()[2][1], equalTo(Mark.EMPTY_FIELD.getMark())),
+                () -> assertThat(boardManager.getBoard()[2][2], equalTo(Mark.EMPTY_FIELD.getMark())),
+                () -> assertThat(boardManager.getBoard()[2][3], equalTo(Mark.EMPTY_FIELD.getMark())),
+                () -> assertThat(boardManager.getBoard()[3][0], equalTo(RowName.C.getName())),
+                () -> assertThat(boardManager.getBoard()[3][1], equalTo(Mark.EMPTY_FIELD.getMark())),
+                () -> assertThat(boardManager.getBoard()[3][2], equalTo(Mark.EMPTY_FIELD.getMark())),
+                () -> assertThat(boardManager.getBoard()[3][3], equalTo(Mark.EMPTY_FIELD.getMark()))
         );
     }
 }

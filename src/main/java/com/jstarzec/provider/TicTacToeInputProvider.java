@@ -1,7 +1,7 @@
 package com.jstarzec.provider;
 
 import com.jstarzec.enums.BoardCoordinate;
-import com.jstarzec.enums.ColumnName;
+import com.jstarzec.enums.RowName;
 import com.jstarzec.enums.Message;
 import com.jstarzec.enums.Pattern;
 import com.jstarzec.manager.GameBoardManager;
@@ -58,15 +58,15 @@ public class TicTacToeInputProvider implements GameInputProvider {
     public Map<String, Integer> extractBoardPositions(String input) {
         Map<String, Integer> position = new HashMap<>();
 
-        if (null == input || "".equals(input)) {
+        if (null == input || input.isEmpty()) {
             return position;
         }
 
         char row = input.charAt(0);
         int column = Character.getNumericValue(input.charAt(1));
-        char columnA = ColumnName.A.getName();
-        char columnB = ColumnName.B.getName();
-        char columnC = ColumnName.C.getName();
+        char columnA = RowName.A.getName();
+        char columnB = RowName.B.getName();
+        char columnC = RowName.C.getName();
 
         position.put(BoardCoordinate.COLUMN.getValue(), null);
         position.put(BoardCoordinate.ROW.getValue(), null);
