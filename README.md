@@ -1,9 +1,14 @@
+<h1>TicTacToe</h1>
+
+This is an implementation of this popular game. Runs in cmd and was written in Java.
+
 <h5>Requirements</h5>
 
 * Maven installed
-* Java 1.8
-* Environment variables set
+* Java 1.8 installed
+* Java and Maven environment variables set
 
 <h5>Instructions</h5>
-To run the program you need to open cmd and navigate to application folder abd run `mvn clean install` 
-and after it compiles move to target folder and run `java -jar .\TicTacToe-1.0.jar` 
+
+To run the program open cmd in application folder and run command `mvn clean install`.
+Next move to `target` folder and run `java -jar .\TicTacToe-1.0.jar`.
