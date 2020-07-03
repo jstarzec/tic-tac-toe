@@ -32,8 +32,18 @@ public class TicTacToeInputProvider implements GameInputProvider {
 
         while (!isValid) {
             input = SCANNER.nextLine();
-            position = extractBoardPositions(input);
-            isValid = validate(input, position);
+            boolean isInputValid = VALIDATOR.validateInput(input);
+            boolean isPositionValid = false;
+
+            if(isInputValid){
+               isPositionValid = VALIDATOR.validateBoardPosition(position, MANAGER.getBoard());
+            }
+
+            if(isPositionValid){
+                position = extractBoardPositions(input);
+            }
+
+            isValid = isInputValid && isPositionValid;
 
             if (!isValid) {
                 System.out.println(Message.INVALID_INPUT.getMessage());
@@ -43,10 +53,6 @@ public class TicTacToeInputProvider implements GameInputProvider {
         }
 
         return position;
-    }
-
-    public boolean validate(String input, Map<String, Integer> position) {
-        return VALIDATOR.validateInput(input) && VALIDATOR.validateBoardPosition(position, MANAGER.getBoard());
     }
 
     public Map<String, Integer> extractBoardPositions(String input) {
