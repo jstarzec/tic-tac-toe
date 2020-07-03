@@ -15,32 +15,32 @@ import java.util.Scanner;
 public class TicTacToeInputProvider implements GameInputProvider {
 
     private final GameInputValidator VALIDATOR;
-    private final Scanner SCANNER;
     private final GameBoardManager MANAGER;
 
     public TicTacToeInputProvider(GameBoardManager manager) {
         this.MANAGER = manager;
         this.VALIDATOR = new TicTacToeInputValidator(Pattern.INPUT_PATTERN.getPattern());
-        this.SCANNER = new Scanner(System.in);
     }
 
     @Override
-    public Map<String, Integer> getValidInput() {
+    public Map<String, Integer> getValidInput(Scanner scanner) {
         String input;
         boolean isValid = false;
         Map<String, Integer> position = new HashMap<>();
 
         while (!isValid) {
-            input = SCANNER.nextLine();
+            input = scanner.next();
+
+            if (null == input) {
+                input = scanner.next();
+            }
+
             boolean isInputValid = VALIDATOR.validateInput(input);
             boolean isPositionValid = false;
 
-            if(isInputValid){
-               isPositionValid = VALIDATOR.validateBoardPosition(position, MANAGER.getBoard());
-            }
-
-            if(isPositionValid){
+            if (isInputValid) {
                 position = extractBoardPositions(input);
+                isPositionValid = VALIDATOR.validateBoardPosition(position, MANAGER.getBoard());
             }
 
             isValid = isInputValid && isPositionValid;
@@ -57,6 +57,11 @@ public class TicTacToeInputProvider implements GameInputProvider {
 
     public Map<String, Integer> extractBoardPositions(String input) {
         Map<String, Integer> position = new HashMap<>();
+
+        if (null == input || "".equals(input)) {
+            return position;
+        }
+
         char row = input.charAt(0);
         int column = Character.getNumericValue(input.charAt(1));
         char columnA = ColumnName.A.getName();
@@ -76,9 +81,5 @@ public class TicTacToeInputProvider implements GameInputProvider {
         }
 
         return position;
-    }
-
-    public void close() {
-        SCANNER.close();
     }
 }

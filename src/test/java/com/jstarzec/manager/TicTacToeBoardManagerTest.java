@@ -22,6 +22,7 @@ class TicTacToeBoardManagerTest {
 
     private GameBoardManager boardManager;
     private Map<String, Integer> coordinates;
+    private char mark;
 
     @BeforeEach
     public void before() {
@@ -30,7 +31,7 @@ class TicTacToeBoardManagerTest {
     }
 
     @Test
-    void printGameBoardOutputShouldBeEqualToExpectedOutput() {
+    void ShouldBeEqualToExpectedOutputWhenPrintGameBoarMethodCalled() {
         //Given
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
@@ -49,8 +50,9 @@ class TicTacToeBoardManagerTest {
     }
 
     @Test
-    void printModifiedGameBoardShouldBeEqualToExpectedOutput() {
+    void shouldBeEqualToExpectedOutputWhenPrintModifiedGameBoard() {
         //Given
+        mark = 'X';
         coordinates.put(BoardCoordinate.ROW.getValue(), 1);
         coordinates.put(BoardCoordinate.COLUMN.getValue(), 1);
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -62,7 +64,7 @@ class TicTacToeBoardManagerTest {
                         "C...\n";
 
         //When
-        boardManager.markGameBoard(coordinates, 'X');
+        boardManager.markGameBoard(coordinates, mark);
         boardManager.printGameBoard();
 
         //Then
@@ -70,8 +72,9 @@ class TicTacToeBoardManagerTest {
     }
 
     @Test
-    void gameBoardPositionShouldBeEqualToAMarkX() {
+    void shouldBeEqualToMarkXWhenMarkedGameBoard() {
         //Given
+        mark = 'X';
         coordinates.put(BoardCoordinate.ROW.getValue(), 1);
         coordinates.put(BoardCoordinate.COLUMN.getValue(), 1);
 
@@ -79,63 +82,68 @@ class TicTacToeBoardManagerTest {
         boardManager.markGameBoard(coordinates, 'X');
 
         //Then
-        assertThat(boardManager.getBoard()[1][1], equalTo('X'));
+        assertThat(boardManager.getBoard()[1][1], equalTo(mark));
     }
 
 
     @Test
-    void gameBoardPositionShouldBeEqualToAMarkO() {
+    void shouldBeEqualToMarkOWhenMarkedGameBoard() {
         //Given
+        mark = 'O';
         coordinates.put(BoardCoordinate.ROW.getValue(), 1);
         coordinates.put(BoardCoordinate.COLUMN.getValue(), 3);
 
         //When
-        boardManager.markGameBoard(coordinates, 'O');
+        boardManager.markGameBoard(coordinates, mark);
 
         //Then
-        assertThat(boardManager.getBoard()[1][3], equalTo('O'));
+        assertThat(boardManager.getBoard()[1][3], equalTo(mark));
     }
 
     @Test
-    void gameBoardPositionShouldOverwrite() {
+    void shouldOverwriteGameBoardPosition() {
         //Given
+        mark = 'O';
         coordinates.put(BoardCoordinate.ROW.getValue(), 1);
         coordinates.put(BoardCoordinate.COLUMN.getValue(), 3);
 
         //When
-        boardManager.markGameBoard(coordinates, 'O');
+        boardManager.markGameBoard(coordinates, mark);
 
         //Then
-        assertThat(boardManager.getBoard()[1][3], equalTo('O'));
+        assertThat(boardManager.getBoard()[1][3], equalTo(mark));
 
         //When
-        boardManager.markGameBoard(coordinates, 'X');
+        mark = 'X';
+        boardManager.markGameBoard(coordinates, mark);
 
         //Then
-        assertThat(boardManager.getBoard()[1][3], equalTo('X'));
+        assertThat(boardManager.getBoard()[1][3], equalTo(mark));
     }
 
     @Test
-    void shouldThrowArrayIndexOutOfBoundsExceptionDueToIncorrectCoordinates() {
+    void shouldThrowArrayIndexOutOfBoundsExceptionWhenIndexIncorrect() {
         //Given
+        mark = 'O';
         coordinates.put(BoardCoordinate.ROW.getValue(), 10);
         coordinates.put(BoardCoordinate.COLUMN.getValue(), 10);
 
         //When
-        Exception exception = assertThrows(Exception.class, () -> boardManager.markGameBoard(coordinates, 'O'));
+        Exception exception = assertThrows(Exception.class, () -> boardManager.markGameBoard(coordinates, mark));
 
         //Then
         assertThat(exception.getClass(), equalTo(ArrayIndexOutOfBoundsException.class));
     }
 
     @Test
-    void shouldThrowArrayIndexOutOfBoundsExceptionDueToNegativeIndex() {
+    void shouldThrowArrayIndexOutOfBoundsExceptionWhenIndexIsNegative() {
         //Given
+        mark = 'O';
         coordinates.put(BoardCoordinate.ROW.getValue(), -1);
         coordinates.put(BoardCoordinate.COLUMN.getValue(), -1);
 
         //When
-        Exception exception = assertThrows(Exception.class, () -> boardManager.markGameBoard(coordinates, 'O'));
+        Exception exception = assertThrows(Exception.class, () -> boardManager.markGameBoard(coordinates, mark));
 
         //Then
         assertThat(exception.getClass(), equalTo(ArrayIndexOutOfBoundsException.class));
@@ -144,12 +152,13 @@ class TicTacToeBoardManagerTest {
     @Test
     void shouldHaveWinnerWithGivenInput() {
         //Given
+        mark = 'X';
         boardManager.getBoard()[1][1] = Mark.X.getMark();
         boardManager.getBoard()[1][2] = Mark.X.getMark();
         boardManager.getBoard()[1][3] = Mark.X.getMark();
 
         //When
-        boolean hasWinner = boardManager.checkForWinner('X');
+        boolean hasWinner = boardManager.checkForWinner(mark);
 
         //Then
         assertThat(hasWinner, is(true));
@@ -158,56 +167,66 @@ class TicTacToeBoardManagerTest {
     @Test
     void shouldNotHaveWinnerWithGivenInput() {
         //Given
+        mark = 'X';
         boardManager.getBoard()[1][1] = Mark.X.getMark();
         boardManager.getBoard()[1][2] = Mark.O.getMark();
         boardManager.getBoard()[1][3] = Mark.X.getMark();
 
         //When
-        boolean hasWinner = boardManager.checkForWinner('X');
+        boolean hasWinner = boardManager.checkForWinner(mark);
 
         //Then
         assertThat(hasWinner, is(false));
     }
 
     @Test
-    void shouldNotHaveWinnerWithXMarkAndUnmodifiedBoard() {
+    void shouldNotHaveWinnerWhenMarkXAndBoardUnmodified() {
+        //Given
+        mark = 'X';
+
         //When
-        boolean hasWinner = boardManager.checkForWinner('X');
+        boolean hasWinner = boardManager.checkForWinner(mark);
 
         //Then
         assertThat(hasWinner, is(false));
     }
 
     @Test
-    void shouldNotHaveWinnerWithOMarkAndUnmodifiedBoard() {
+    void shouldNotHaveWinnerWhenMarkOAndBoardUnmodified() {
+        //Given
+        mark = 'O';
+
         //When
-        boolean hasWinner = boardManager.checkForWinner('O');
+        boolean hasWinner = boardManager.checkForWinner(mark);
 
         //Then
         assertThat(hasWinner, is(false));
     }
 
     @Test
-    void shouldHaveWinnerWithDotMarkAndUnmodifiedBoard() {
+    void shouldHaveWinnerWithDotMarkWhenBoardNotModified() {
+        //Given
+        mark = '.';
+
         //When
-        boolean hasWinner = boardManager.checkForWinner('.');
+        boolean hasWinner = boardManager.checkForWinner(mark);
 
         //Then
         assertThat(hasWinner, is(true));
     }
 
     @Test
-    void boardShouldNotBeNull() {
+    void shouldNotBeNull() {
         assertThat(boardManager.getBoard(), notNullValue());
     }
 
     @Test
-    void boardShouldNotBeEmpty() {
+    void shouldNotBeEmpty() {
         assertThat(Arrays.asList(boardManager.getBoard()), is(not(empty())));
     }
 
     @Test
-    void boardShouldContainGivenValues() {
+    void shouldContainGivenValues() {
         assertAll("This is a group of assertion of each position of a board",
                 () -> assertThat(boardManager.getBoard()[0][0], equalTo(' ')),
                 () -> assertThat(boardManager.getBoard()[0][1], equalTo('1')),

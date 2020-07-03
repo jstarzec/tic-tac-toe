@@ -7,116 +7,175 @@ import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TicTacToeInputProviderTest {
 
     private GameInputProvider provider;
+    private Map<String, Integer> coordinates;
+    private String input;
 
     @BeforeEach
-    public void before(){
+    public void before() {
         provider = new TicTacToeInputProvider(new TicTacToeBoardManager());
+        coordinates = new HashMap<>();
     }
 
     @Test
-    void validate() {
-//        String input = "A1";
-//        Map<String, Integer> position = provider.extractBoardPositions(input);
-//        provider.validate(input, position);
-//        assertTrue(provider.validate(input, position));
-//
-//        input = "A2";
-//        position = provider.extractBoardPositions(input);
-//        assertTrue(provider.validate(input, position));
-//
-//        input = "A3";
-//        position = provider.extractBoardPositions(input);
-//        assertTrue(provider.validate(input, position));
-//
-//        input = "B1";
-//        position = provider.extractBoardPositions(input);
-//        assertTrue(provider.validate(input, position));
-//
-//        input = "B2";
-//        position = provider.extractBoardPositions(input);
-//        assertTrue(provider.validate(input, position));
-//
-//        input = "B3";
-//        position = provider.extractBoardPositions(input);
-//        assertTrue(provider.validate(input, position));
-//
-//        input = "C1";
-//        position = provider.extractBoardPositions(input);
-//        assertTrue(provider.validate(input, position));
-//
-//        input = "C2";
-//        position = provider.extractBoardPositions(input);
-//        assertTrue(provider.validate(input, position));
-//
-//        input = "C3";
-//        position = provider.extractBoardPositions(input);
-//        assertTrue(provider.validate(input, position));
-//
-//        input = "!@#@#$%#^%";
-//        position = provider.extractBoardPositions(input);
-//        assertFalse(provider.validate(input, position));
-//
-//        input = "A0";
-//        position = provider.extractBoardPositions(input);
-//        assertFalse(provider.validate(input, position));
-//
-//        input = "12";
-//        position = provider.extractBoardPositions(input);
-//        assertFalse(provider.validate(input, position));
-//
-//        input = "1000000000000000000000000";
-//        position = provider.extractBoardPositions(input);
-//        assertFalse(provider.validate(input, position));
-//
-//        input = "AA";
-//        position = provider.extractBoardPositions(input);
-//        assertFalse(provider.validate(input, position));
-//
-//        input = "LONG STRING WITH SPACES";
-//        position = provider.extractBoardPositions(input);
-//        assertFalse(provider.validate(input, position));
-//
-//        input = "LONGSTRINGWITHNOSPACES";
-//        position = provider.extractBoardPositions(input);
-//        assertFalse(provider.validate(input, position));
+    void shouldSetProperCoordinatesWhenInputIsValid() {
+        //Given
+        input = "A1";
+
+        //When
+        coordinates = provider.extractBoardPositions(input);
+
+        //Then
+        assertAll("This is a group of assertions for coordinates",
+                () -> assertThat(coordinates.get(BoardCoordinate.COLUMN.getValue()), equalTo(1)),
+                () -> assertThat(coordinates.get(BoardCoordinate.ROW.getValue()), equalTo(1)));
     }
 
     @Test
-    void extractBoardPositions() {
-        String input = "A1";
-        Map<String, Integer> position = provider.extractBoardPositions(input);
-        assertEquals(1, position.get(BoardCoordinate.ROW.getValue()));
-        assertEquals(1, position.get(BoardCoordinate.COLUMN.getValue()));
+    void shouldNotSetProperCoordinatesWhenColumnIsLowerCase() {
+        //Given
+        input = "a1";
 
-        input = "B2";
-        position = provider.extractBoardPositions(input);
-        assertEquals(2, position.get(BoardCoordinate.ROW.getValue()));
-        assertEquals(2, position.get(BoardCoordinate.COLUMN.getValue()));
+        //When
+        coordinates = provider.extractBoardPositions(input);
 
-        input = "g8";
-        position = provider.extractBoardPositions(input);
-        assertNull(position.get(BoardCoordinate.ROW.getValue()));
-        assertNull(position.get(BoardCoordinate.COLUMN.getValue()));
+        //Then
+        assertAll("This is a group of assertions for coordinates",
+                () -> assertThat(coordinates.get(BoardCoordinate.COLUMN.getValue()), is(nullValue())),
+                () -> assertThat(coordinates.get(BoardCoordinate.ROW.getValue()), is(nullValue())));
+    }
 
+    @Test
+    void shouldNotSetProperCoordinatesWhenInputIsTooLong() {
+        //Given
         input = "LongInput123";
-        position = provider.extractBoardPositions(input);
-        assertNull(position.get(BoardCoordinate.ROW.getValue()));
-        assertNull(position.get(BoardCoordinate.COLUMN.getValue()));
 
-        input = "1234567890";
-        position = provider.extractBoardPositions(input);
-        assertNull(position.get(BoardCoordinate.ROW.getValue()));
-        assertNull(position.get(BoardCoordinate.COLUMN.getValue()));
+        //When
+        coordinates = provider.extractBoardPositions(input);
 
-        input = "14";
-        position = provider.extractBoardPositions(input);
-        assertNull(position.get(BoardCoordinate.ROW.getValue()));
-        assertNull(position.get(BoardCoordinate.COLUMN.getValue()));
+        //Then
+        assertAll("This is a group of assertions for coordinates",
+                () -> assertThat(coordinates.get(BoardCoordinate.COLUMN.getValue()), is(nullValue())),
+                () -> assertThat(coordinates.get(BoardCoordinate.ROW.getValue()), is(nullValue())));
+    }
+
+    @Test
+    void shouldNotSetProperCoordinatesWhenInputConsistsOnlyFromIntegers() {
+        ///Given
+        input = "12";
+
+        //When
+        coordinates = provider.extractBoardPositions(input);
+
+        //Then
+        assertAll("This is a group of assertions for coordinates",
+                () -> assertThat(coordinates.get(BoardCoordinate.COLUMN.getValue()), is(nullValue())),
+                () -> assertThat(coordinates.get(BoardCoordinate.ROW.getValue()), is(nullValue())));
+    }
+
+    @Test
+    void shouldNotSetProperCoordinatesWhenInputConsistsAnySpecialCharacter() {
+        //Given
+        input = "A#";
+
+        //When
+        coordinates = provider.extractBoardPositions(input);
+
+        //Then
+        assertAll("This is a group of assertions for coordinates",
+                () -> assertThat(coordinates.get(BoardCoordinate.COLUMN.getValue()), is(nullValue())),
+                () -> assertThat(coordinates.get(BoardCoordinate.ROW.getValue()), is(nullValue())));
+    }
+
+    @Test
+    void shouldNotSetProperCoordinatesWhenColumnNumberDoesNotExist() {
+        //Given
+        input = "A4";
+
+        //When
+        coordinates = provider.extractBoardPositions(input);
+
+        //Then
+        assertAll("This is a group of assertions for coordinates",
+                () -> assertThat(coordinates.get(BoardCoordinate.COLUMN.getValue()), is(nullValue())),
+                () -> assertThat(coordinates.get(BoardCoordinate.ROW.getValue()), is(nullValue())));
+
+    }
+
+    @Test
+    void shouldNotSetProperCoordinatesWhenRowDoesNotExist() {
+
+        //Given
+        input = "D1";
+
+        //When
+        coordinates = provider.extractBoardPositions(input);
+
+        //Then
+        assertAll("This is a group of assertions for coordinates",
+                () -> assertThat(coordinates.get(BoardCoordinate.COLUMN.getValue()), is(nullValue())),
+                () -> assertThat(coordinates.get(BoardCoordinate.ROW.getValue()), is(nullValue())));
+    }
+
+    @Test
+    void shouldNotSetProperCoordinatesWhenInputIsNull() {
+        //When
+        coordinates = provider.extractBoardPositions(null);
+
+        //Then
+        assertAll("This is a group of assertions for coordinates",
+                () -> assertThat(coordinates.get(BoardCoordinate.COLUMN.getValue()), is(nullValue())),
+                () -> assertThat(coordinates.get(BoardCoordinate.ROW.getValue()), is(nullValue())));
+    }
+
+    @Test
+    void shouldReturnAMapOfValidCoordinatesWhenHasAtLeastOneValidInput() {
+        //Given
+        Scanner scanner = new Scanner("G1 H2 U5 a1 b2 c3 $% 1 2 3 A B C A2").useDelimiter(" ");
+
+        //When
+        Map<String, Integer> coordinates = provider.getValidInput(scanner);
+
+        //Then
+        assertAll("This is a group of assertions for coordinates",
+                () -> assertThat(coordinates.get(BoardCoordinate.COLUMN.getValue()), equalTo(2)),
+                () -> assertThat(coordinates.get(BoardCoordinate.ROW.getValue()), equalTo(1)));
+    }
+
+    @Test
+    void shouldReturnAMapOfValidCoordinatesWhenHasValidInput() {
+        //Given
+        Scanner scanner = new Scanner("A1");
+
+        //When
+        Map<String, Integer> coordinates = provider.getValidInput(scanner);
+
+        //Then
+        assertAll("This is a group of assertions for coordinates",
+                () -> assertThat(coordinates.get(BoardCoordinate.COLUMN.getValue()), equalTo(1)),
+                () -> assertThat(coordinates.get(BoardCoordinate.ROW.getValue()), equalTo(1)));
+    }
+
+    @Test
+    void shouldThrowNoSuchElementExceptionWhenHasNoValidInput() {
+        //Given
+        Scanner scanner = new Scanner("no valid input");
+
+        //When
+        Exception exception = assertThrows(Exception.class, () -> provider.getValidInput(scanner));
+
+        //Then
+        assertThat(exception.getClass(), equalTo(NoSuchElementException.class));
     }
 }

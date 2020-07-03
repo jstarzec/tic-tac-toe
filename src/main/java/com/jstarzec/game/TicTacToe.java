@@ -8,6 +8,7 @@ import com.jstarzec.provider.GameInputProvider;
 import com.jstarzec.provider.TicTacToeInputProvider;
 
 import java.util.Map;
+import java.util.Scanner;
 
 public class TicTacToe {
 
@@ -17,10 +18,13 @@ public class TicTacToe {
     private char mark;
     private final GameBoardManager GAME_BOARD_MANAGER;
     private final GameInputProvider INPUT_PROVIDER;
+    private final Scanner SCANNER;
+
 
     public TicTacToe() {
         this.GAME_BOARD_MANAGER = new TicTacToeBoardManager();
         this.INPUT_PROVIDER = new TicTacToeInputProvider(GAME_BOARD_MANAGER);
+        this.SCANNER = new Scanner(System.in);
     }
 
     public void play() {
@@ -47,7 +51,7 @@ public class TicTacToe {
                 return;
             }
 
-            Map<String, Integer> position = getInputProvider().getValidInput();
+            Map<String, Integer> position = getInputProvider().getValidInput(SCANNER);
             getGameBoardManager().markGameBoard(position, mark);
             getGameBoardManager().printGameBoard();
 
@@ -66,7 +70,7 @@ public class TicTacToe {
     }
 
     private void close() {
-        INPUT_PROVIDER.close();
+        SCANNER.close();
     }
 
     public char[][] getBoard() {

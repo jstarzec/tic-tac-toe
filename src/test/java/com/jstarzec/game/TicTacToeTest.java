@@ -12,7 +12,6 @@ public class TicTacToeTest {
 
     @Before
     public void before() {
-
         game = new TicTacToe();
     }
 
@@ -26,5 +25,35 @@ public class TicTacToeTest {
                 () -> assertThat(game.getGameBoardManager(), is(not(nullValue()))),
                 () -> assertThat(game.getInputProvider(), is(not(nullValue())))
         );
+    }
+
+    @Test
+    public void shouldBoardBeNull() {
+        assertThat(game.getBoard(), nullValue());
+    }
+
+    @Test
+    public void shouldHasWinnerBeFalse() {
+        assertThat(game.getHasWinner(), is(false));
+    }
+
+    @Test
+    public void shouldRoundBeEqual0() {
+        assertThat(game.getRound(), equalTo(0));
+    }
+
+    @Test
+    public void shouldMarkBeEqualToEmptyChar() {
+        assertThat(game.getMark(), equalTo('\0'));
+    }
+
+    @Test
+    public void shouldGameBoardManagerBeNull() {
+        assertThat(game.getGameBoardManager(), is(not(nullValue())));
+    }
+
+    @Test
+    public void shouldInputProviderBeNull() {
+        assertThat(game.getInputProvider(), is(not(nullValue())));
     }
 }
