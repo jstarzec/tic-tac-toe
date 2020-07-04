@@ -10,4 +10,6 @@ public interface GameBoardManager {
     char[][] getBoard();
 
     boolean checkForWinner(char mark);
+
+    void setNewGameBoard();
 }

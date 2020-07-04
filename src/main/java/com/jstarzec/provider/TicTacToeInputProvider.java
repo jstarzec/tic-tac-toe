@@ -1,9 +1,9 @@
 package com.jstarzec.provider;
 
 import com.jstarzec.enums.BoardCoordinate;
+import com.jstarzec.enums.Pattern;
 import com.jstarzec.enums.RowName;
 import com.jstarzec.enums.Message;
-import com.jstarzec.enums.Pattern;
 import com.jstarzec.manager.GameBoardManager;
 import com.jstarzec.validator.GameInputValidator;
 import com.jstarzec.validator.TicTacToeInputValidator;
@@ -19,11 +19,11 @@ public class TicTacToeInputProvider implements GameInputProvider {
 
     public TicTacToeInputProvider(GameBoardManager manager) {
         this.MANAGER = manager;
-        this.VALIDATOR = new TicTacToeInputValidator(Pattern.INPUT_PATTERN.getPattern());
+        this.VALIDATOR = new TicTacToeInputValidator();
     }
 
     @Override
-    public Map<String, Integer> getValidInput(Scanner scanner) {
+    public Map<String, Integer> getValidCoordinates(Scanner scanner) {
         String input;
         boolean isValid = false;
         Map<String, Integer> position = new HashMap<>();
@@ -35,8 +35,14 @@ public class TicTacToeInputProvider implements GameInputProvider {
                 input = scanner.next();
             }
 
-            boolean isInputValid = VALIDATOR.validateInput(input);
+            boolean isInputValid = VALIDATOR.validateInput(input, Pattern.BOARD_POSITION.getPattern());
             boolean isPositionValid = false;
+
+            char rowIndicator = input.charAt(0);
+
+            if (Character.isLowerCase(rowIndicator)) {
+                input = input.replace(rowIndicator, Character.toUpperCase(rowIndicator));
+            }
 
             if (isInputValid) {
                 position = extractBoardPositions(input);
@@ -81,5 +87,18 @@ public class TicTacToeInputProvider implements GameInputProvider {
         }
 
         return position;
+    }
+
+    @Override
+    public int getValidMenuNumber(Scanner scanner) {
+        String input = "";
+        boolean isValid = false;
+
+        while (!isValid) {
+            input = scanner.next();
+            isValid = VALIDATOR.validateInput(input, Pattern.MENU_INPUT.getPattern());
+        }
+
+        return Integer.parseInt(input);
     }
 }

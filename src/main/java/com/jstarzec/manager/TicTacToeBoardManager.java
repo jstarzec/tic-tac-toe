@@ -9,15 +9,10 @@ import java.util.Map;
 
 public class TicTacToeBoardManager implements GameBoardManager {
 
-    private final char[][] board;
+    private char[][] board;
 
     public TicTacToeBoardManager() {
-        board = new char[][]{
-                {' ', ColumnName.NAME_1.getName(), ColumnName.NAME_2.getName(), ColumnName.NAME_3.getName()},
-                {RowName.A.getName(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark()},
-                {RowName.B.getName(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark()},
-                {RowName.C.getName(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark()},
-        };
+        setNewGameBoard();
     }
 
     @Override
@@ -31,6 +26,8 @@ public class TicTacToeBoardManager implements GameBoardManager {
 
             System.out.print("\n");
         }
+        System.out.print("\n");
+
     }
 
     @Override
@@ -63,6 +60,16 @@ public class TicTacToeBoardManager implements GameBoardManager {
         //diagonal check
         return (board[1][1] == mark && board[2][2] == mark && board[3][3] == mark)
                 || (board[1][3] == mark && board[2][2] == mark && board[3][1] == mark);
+    }
+
+    @Override
+    public void setNewGameBoard() {
+        board = new char[][]{
+                {' ', ColumnName.NAME_1.getName(), ColumnName.NAME_2.getName(), ColumnName.NAME_3.getName()},
+                {RowName.A.getName(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark()},
+                {RowName.B.getName(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark()},
+                {RowName.C.getName(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark(), Mark.EMPTY_FIELD.getMark()},
+        };
     }
 
     @Override

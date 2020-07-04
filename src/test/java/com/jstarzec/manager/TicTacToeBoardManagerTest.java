@@ -41,9 +41,34 @@ class TicTacToeBoardManagerTest {
                 " 123\n" +
                         "A...\n" +
                         "B...\n" +
-                        "C...\n";
+                        "C...\n" +
+                        "\n";
 
         //When
+        boardManager.printGameBoard();
+
+        //Then
+        assertThat(expectedOutput, equalTo(outContent.toString()));
+    }
+
+    @Test
+    void shouldBeEqualToEmptyBoardWhenSetNewGameBoardWasCalled() {
+        //Given
+        mark = Mark.X.getMark();
+        coordinates.put(BoardCoordinate.ROW.getValue(), 1);
+        coordinates.put(BoardCoordinate.COLUMN.getValue(), 1);
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        String expectedOutput =
+                " 123\n" +
+                        "A...\n" +
+                        "B...\n" +
+                        "C...\n" +
+                        "\n";
+
+        //When
+        boardManager.markGameBoard(coordinates, mark);
+        boardManager.setNewGameBoard();
         boardManager.printGameBoard();
 
         //Then
@@ -62,7 +87,8 @@ class TicTacToeBoardManagerTest {
                 " 123\n" +
                         "AX..\n" +
                         "B...\n" +
-                        "C...\n";
+                        "C...\n" +
+                        "\n";
 
         //When
         boardManager.markGameBoard(coordinates, mark);

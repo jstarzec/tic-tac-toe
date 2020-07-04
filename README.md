@@ -11,4 +11,9 @@ This is an implementation of this popular game. Runs in cmd and was written in J
 <h5>Instructions</h5>
 
 To run the program open cmd in application folder and run command `mvn clean install`.
-Next move to `target` folder and run `java -jar .\TicTacToe-1.0.jar`.
+Next move to `target` folder and run `java -jar TicTacToe-1.0.jar`.
+
+<h5>Tests</h5>
+
+To run tests you use `mvn test` in root folder of the application.
+Tests were written using Junit and Hamcrest.

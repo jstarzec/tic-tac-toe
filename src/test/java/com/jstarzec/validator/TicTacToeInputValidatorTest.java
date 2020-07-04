@@ -12,7 +12,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 class TicTacToeInputValidatorTest {
 
-    private GameInputValidator validator = new TicTacToeInputValidator(Pattern.INPUT_PATTERN.getPattern());
+    private final GameInputValidator VALIDATOR = new TicTacToeInputValidator();
     private char[][] board;
     private Map<String, Integer> coordinates;
 
@@ -34,7 +34,7 @@ class TicTacToeInputValidatorTest {
         coordinates.put(BoardCoordinate.COLUMN.getValue(), 1);
 
         //When
-        boolean isValid = validator.validateBoardPosition(coordinates, board);
+        boolean isValid = VALIDATOR.validateBoardPosition(coordinates, board);
 
         //Then
         assertThat(isValid, is(true));
@@ -47,7 +47,7 @@ class TicTacToeInputValidatorTest {
         coordinates.put(BoardCoordinate.COLUMN.getValue(), 0);
 
         //When
-        boolean isValid = validator.validateBoardPosition(coordinates, board);
+        boolean isValid = VALIDATOR.validateBoardPosition(coordinates, board);
 
         //Then
         assertThat(isValid, is(false));
@@ -60,7 +60,7 @@ class TicTacToeInputValidatorTest {
         coordinates.put(BoardCoordinate.COLUMN.getValue(), 100);
 
         //When
-        boolean isValid = validator.validateBoardPosition(coordinates, board);
+        boolean isValid = VALIDATOR.validateBoardPosition(coordinates, board);
 
         //Then
         assertThat(isValid, is(false));
@@ -73,7 +73,7 @@ class TicTacToeInputValidatorTest {
         coordinates.put(BoardCoordinate.COLUMN.getValue(), 1);
 
         //When
-        boolean isValid = validator.validateBoardPosition(coordinates, board);
+        boolean isValid = VALIDATOR.validateBoardPosition(coordinates, board);
 
         //Then
         assertThat(isValid, is(false));
@@ -87,7 +87,7 @@ class TicTacToeInputValidatorTest {
         coordinates.put(BoardCoordinate.COLUMN.getValue(), 1);
 
         //When
-        boolean isValid = validator.validateBoardPosition(coordinates, board);
+        boolean isValid = VALIDATOR.validateBoardPosition(coordinates, board);
 
         //Then
         assertThat(isValid, is(false));
@@ -101,7 +101,7 @@ class TicTacToeInputValidatorTest {
         coordinates.put(BoardCoordinate.COLUMN.getValue(), 1);
 
         //When
-        boolean isValid = validator.validateBoardPosition(coordinates, board);
+        boolean isValid = VALIDATOR.validateBoardPosition(coordinates, board);
 
         //Then
         assertThat(isValid, is(false));
@@ -110,7 +110,7 @@ class TicTacToeInputValidatorTest {
     @Test
     void shouldReturnFalseWhenPassEmptyString() {
         //When
-        boolean isValid = validator.validateInput("");
+        boolean isValid = VALIDATOR.validateInput("", Pattern.BOARD_POSITION.getPattern());
 
         //Then
         assertThat(isValid, is(false));
@@ -119,7 +119,7 @@ class TicTacToeInputValidatorTest {
     @Test
     void shouldReturnFalseWhenPassOneCharacter() {
         //When
-        boolean isValid = validator.validateInput("A");
+        boolean isValid = VALIDATOR.validateInput("A", Pattern.BOARD_POSITION.getPattern());
 
         //Then
         assertThat(isValid, is(false));
@@ -128,7 +128,7 @@ class TicTacToeInputValidatorTest {
     @Test
     void shouldReturnFalseWhenPassOneInteger() {
         //When
-        boolean isValid = validator.validateInput("1");
+        boolean isValid = VALIDATOR.validateInput("1", Pattern.BOARD_POSITION.getPattern());
 
         //Then
         assertThat(isValid, is(false));
@@ -137,7 +137,7 @@ class TicTacToeInputValidatorTest {
     @Test
     void shouldReturnFalseWhenPassOneSpecialCharacter() {
         //When
-        boolean isValid = validator.validateInput("*");
+        boolean isValid = VALIDATOR.validateInput("*", Pattern.BOARD_POSITION.getPattern());
 
         //Then
         assertThat(isValid, is(false));
@@ -146,7 +146,7 @@ class TicTacToeInputValidatorTest {
     @Test
     void shouldReturnFalseWhenPassStringOfInvalidLength() {
         //When
-        boolean isValid = validator.validateInput("LongString");
+        boolean isValid = VALIDATOR.validateInput("LongString", Pattern.BOARD_POSITION.getPattern());
 
         //Then
         assertThat(isValid, is(false));
@@ -155,7 +155,7 @@ class TicTacToeInputValidatorTest {
     @Test
     void shouldReturnFalseWhenPassInputWithInvalidColumnIndicator() {
         //When
-        boolean isValid = validator.validateInput("A4");
+        boolean isValid = VALIDATOR.validateInput("A4", Pattern.BOARD_POSITION.getPattern());
 
         //Then
         assertThat(isValid, is(false));
@@ -164,7 +164,7 @@ class TicTacToeInputValidatorTest {
     @Test
     void shouldReturnFalseWhenPassInputWithInvalidRowIndicator() {
         //When
-        boolean isValid = validator.validateInput("D1");
+        boolean isValid = VALIDATOR.validateInput("D1", Pattern.BOARD_POSITION.getPattern());
 
         //Then
         assertThat(isValid, is(false));
@@ -173,7 +173,7 @@ class TicTacToeInputValidatorTest {
     @Test
     void shouldReturnFalseWhenPassNullAsInput() {
         //When
-        boolean isValid = validator.validateInput(null);
+        boolean isValid = VALIDATOR.validateInput(null, Pattern.BOARD_POSITION.getPattern());
 
         //Then
         assertThat(isValid, is(false));

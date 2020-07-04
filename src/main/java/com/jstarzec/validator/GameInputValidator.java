@@ -6,5 +6,5 @@ public interface GameInputValidator {
 
     boolean validateBoardPosition(Map<String, Integer> position, char[][] board);
 
-    boolean validateInput(String position);
+    boolean validateInput(String position, String pattern);
 }

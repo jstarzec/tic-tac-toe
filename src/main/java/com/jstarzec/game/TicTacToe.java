@@ -34,6 +34,7 @@ public class TicTacToe {
     }
 
     private void initialize() {
+        getGameBoardManager().setNewGameBoard();
         board = getGameBoardManager().getBoard();
         hasWinner = false;
         round = 0;
@@ -51,7 +52,8 @@ public class TicTacToe {
                 return;
             }
 
-            Map<String, Integer> position = getInputProvider().getValidInput(SCANNER);
+            printPlayerTurn(mark);
+            Map<String, Integer> position = getInputProvider().getValidCoordinates(SCANNER);
             getGameBoardManager().markGameBoard(position, mark);
             getGameBoardManager().printGameBoard();
 
@@ -59,14 +61,23 @@ public class TicTacToe {
                 hasWinner = getGameBoardManager().checkForWinner(mark);
             }
 
-            if (hasWinner) {
-                System.out.println(mark + Message.WIN.getMessage());
-                return;
-            }
-
             mark = round % 2 == 0 ? Mark.O.getMark() : Mark.X.getMark();
             round++;
         }
+
+        System.out.println(mark + Message.WIN.getMessage());
+        System.out.println(Message.NEXT_ROUND_QUESTION.getMessage());
+        int decision = getInputProvider().getValidMenuNumber(SCANNER);
+
+        if (decision == 1) {
+            initialize();
+            run();
+        }
+
+    }
+
+    private void printPlayerTurn(char mark) {
+        System.out.println(mark + Message.PLAYER_TURN.getMessage());
     }
 
     private void close() {

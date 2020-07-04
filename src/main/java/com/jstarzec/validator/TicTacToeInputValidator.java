@@ -9,10 +9,7 @@ import java.util.regex.Pattern;
 
 public class TicTacToeInputValidator implements GameInputValidator {
 
-    private final Pattern PATTERN;
-
-    public TicTacToeInputValidator(String pattern) {
-        this.PATTERN = Pattern.compile(pattern);
+    public TicTacToeInputValidator() {
     }
 
     @Override
@@ -35,15 +32,15 @@ public class TicTacToeInputValidator implements GameInputValidator {
     }
 
     @Override
-    public boolean validateInput(String position) {
+    public boolean validateInput(String input, String pattern) {
 
-        if (null == position) {
+        if (null == input || null == pattern) {
             return false;
         }
 
-        Matcher matcher = this.PATTERN.matcher(position);
+        Pattern p = Pattern.compile(pattern);
+        Matcher matcher = p.matcher(input);
 
         return matcher.matches();
     }
-
 }

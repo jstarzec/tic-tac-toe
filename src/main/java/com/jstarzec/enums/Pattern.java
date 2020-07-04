@@ -1,7 +1,8 @@
 package com.jstarzec.enums;
 
 public enum Pattern {
-    INPUT_PATTERN("^[A-C][1-3]$");
+    BOARD_POSITION("^[A-Ca-c][1-3]$"),
+    MENU_INPUT("^[1-2]$");
 
     private final String pattern;
 
