@@ -52,7 +52,7 @@ public class TicTacToeInputProvider implements GameInputProvider {
             isValid = isInputValid && isPositionValid;
 
             if (!isValid) {
-                System.out.println(Message.INVALID_INPUT.getMessage());
+                System.out.println(Message.INVALID_POSITION.getMessage());
                 MANAGER.printGameBoard();
             }
 
@@ -97,6 +97,11 @@ public class TicTacToeInputProvider implements GameInputProvider {
         while (!isValid) {
             input = scanner.next();
             isValid = VALIDATOR.validateInput(input, Pattern.MENU_INPUT.getPattern());
+
+            if(!isValid){
+                System.out.println(Message.INVALID_NUMBER.getMessage());
+                System.out.println(Message.NEXT_ROUND_QUESTION.getMessage());
+            }
         }
 
         return Integer.parseInt(input);
