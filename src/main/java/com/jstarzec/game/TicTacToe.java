@@ -49,6 +49,8 @@ public class TicTacToe {
 
             if (round == 9) {
                 System.out.println(Message.TIE.getMessage());
+                checkIfNextRound();
+
                 return;
             }
 
@@ -66,6 +68,12 @@ public class TicTacToe {
         }
 
         System.out.println(mark + Message.WIN.getMessage());
+        System.out.println(Message.NEXT_ROUND_QUESTION.getMessage());
+        checkIfNextRound();
+
+    }
+
+    private void checkIfNextRound() {
         System.out.println(Message.NEXT_ROUND_QUESTION.getMessage());
         int decision = getInputProvider().getValidMenuNumber(SCANNER);
 
