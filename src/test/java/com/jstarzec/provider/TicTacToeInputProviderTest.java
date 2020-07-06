@@ -43,6 +43,34 @@ class TicTacToeInputProviderTest {
     }
 
     @Test
+    void shouldSetNullCoordinatesWhenInputIsOneCharacter() {
+        //Given
+        input = "A";
+
+        //When
+        coordinates = provider.extractBoardPositions(input);
+
+        //Then
+        assertAll("This is a group of assertions for coordinates",
+                () -> assertThat(coordinates.get(BoardCoordinate.COLUMN.getValue()), is(nullValue())),
+                () -> assertThat(coordinates.get(BoardCoordinate.ROW.getValue()), is(nullValue())));
+    }
+
+    @Test
+    void shouldSetNullCoordinatesWhenInputIsOneDigit() {
+        //Given
+        input = "1";
+
+        //When
+        coordinates = provider.extractBoardPositions(input);
+
+        //Then
+        assertAll("This is a group of assertions for coordinates",
+                () -> assertThat(coordinates.get(BoardCoordinate.COLUMN.getValue()), is(nullValue())),
+                () -> assertThat(coordinates.get(BoardCoordinate.ROW.getValue()), is(nullValue())));
+    }
+
+    @Test
     void shouldNotSetProperCoordinatesWhenColumnIsLowerCase() {
         //Given
         input = "a1";
@@ -166,18 +194,6 @@ class TicTacToeInputProviderTest {
     }
 
     @Test
-    void shouldThrowNoSuchElementExceptionWhenHasNoValidInput() {
-        //Given
-        Scanner scanner = new Scanner("no valid input");
-
-        //When
-        Exception exception = assertThrows(Exception.class, () -> provider.getValidCoordinates(scanner));
-
-        //Then
-        assertThat(exception.getClass(), equalTo(NoSuchElementException.class));
-    }
-
-    @Test
     void shouldReturnAValidIntWhenHasAtLeastOneValidInput() {
         //Given
         Scanner scanner = new Scanner("G H2 U5 a b c A0 $% 3 -1 -2 A B C % 2").useDelimiter(" ");
@@ -199,17 +215,5 @@ class TicTacToeInputProviderTest {
 
         //Then
         assertThat(menuNumber, equalTo(1));
-    }
-
-    @Test
-    void shouldThrowNoSuchElementExceptionWhenHasNoValidInputAtAll() {
-        //Given
-        Scanner scanner = new Scanner("no valid input");
-
-        //When
-        Exception exception = assertThrows(Exception.class, () -> provider.getValidMenuNumber(scanner));
-
-        //Then
-        assertThat(exception.getClass(), equalTo(NoSuchElementException.class));
     }
 }

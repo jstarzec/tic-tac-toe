@@ -5,21 +5,18 @@ import com.jstarzec.enums.Pattern;
 import com.jstarzec.enums.RowName;
 import com.jstarzec.enums.Message;
 import com.jstarzec.manager.GameBoardManager;
-import com.jstarzec.validator.GameInputValidator;
 import com.jstarzec.validator.TicTacToeInputValidator;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class TicTacToeInputProvider implements GameInputProvider {
+public class TicTacToeInputProvider extends TicTacToeInputValidator implements GameInputProvider {
 
-    private final GameInputValidator VALIDATOR;
     private final GameBoardManager MANAGER;
 
     public TicTacToeInputProvider(GameBoardManager manager) {
         this.MANAGER = manager;
-        this.VALIDATOR = new TicTacToeInputValidator();
     }
 
     @Override
@@ -35,7 +32,7 @@ public class TicTacToeInputProvider implements GameInputProvider {
                 input = scanner.next();
             }
 
-            boolean isInputValid = VALIDATOR.validateInput(input, Pattern.BOARD_POSITION.getPattern());
+            boolean isInputValid = validateInput(input, Pattern.BOARD_POSITION.getPattern());
             boolean isPositionValid = false;
 
             char rowIndicator = input.charAt(0);
@@ -46,7 +43,7 @@ public class TicTacToeInputProvider implements GameInputProvider {
 
             if (isInputValid) {
                 position = extractBoardPositions(input);
-                isPositionValid = VALIDATOR.validateBoardPosition(position, MANAGER.getBoard());
+                isPositionValid = validateBoardPosition(position, MANAGER.getBoard());
             }
 
             isValid = isInputValid && isPositionValid;
@@ -64,7 +61,7 @@ public class TicTacToeInputProvider implements GameInputProvider {
     public Map<String, Integer> extractBoardPositions(String input) {
         Map<String, Integer> position = new HashMap<>();
 
-        if (null == input || input.isEmpty()) {
+        if (null == input || input.length() != 2) {
             return position;
         }
 
@@ -96,7 +93,7 @@ public class TicTacToeInputProvider implements GameInputProvider {
 
         while (!isValid) {
             input = scanner.next();
-            isValid = VALIDATOR.validateInput(input, Pattern.MENU_INPUT.getPattern());
+            isValid = validateInput(input, Pattern.MENU_INPUT.getPattern());
 
             if(!isValid){
                 System.out.println(Message.INVALID_NUMBER.getMessage());
